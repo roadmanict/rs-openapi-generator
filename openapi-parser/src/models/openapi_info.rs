@@ -1,4 +1,6 @@
-#[derive(Debug)]
+use serde::Deserialize;
+
+#[derive(Deserialize, PartialEq, Debug)]
 pub struct OpenApiInfo {
-    title: String
+    pub title: String
 }

@@ -1,6 +1,7 @@
+use serde::Deserialize;
 use super::openapi_info::OpenApiInfo;
 
-#[derive(Debug)]
+#[derive(Deserialize, PartialEq, Debug)]
 pub struct OpenApi {
-    info: OpenApiInfo
+    pub info: OpenApiInfo
 }

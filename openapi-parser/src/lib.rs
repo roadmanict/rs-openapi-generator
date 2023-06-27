@@ -6,9 +6,11 @@ pub mod models;
 #[derive(Error, Debug)]
 pub enum ParseOpenApiError {
     #[error("Error parsing openapi spec")]
-    ParseError
+    ParseError(#[from] serde_yaml::Error)
 }
 
 pub fn parse(oas_spec: &str) -> Result<OpenApi, ParseOpenApiError> {
-    Err(ParseOpenApiError::ParseError)
+    let oas: OpenApi = serde_yaml::from_str(&oas_spec)?;
+
+    Ok(oas)
 }
