@@ -1,14 +1,14 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
+use thiserror::Error;
+use models::openapi::OpenApi;
+
+pub mod models;
+
+#[derive(Error, Debug)]
+pub enum ParseOpenApiError {
+    #[error("Error parsing openapi spec")]
+    ParseError
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+pub fn parse(oas_spec: &str) -> Result<OpenApi, ParseOpenApiError> {
+    Err(ParseOpenApiError::ParseError)
 }
