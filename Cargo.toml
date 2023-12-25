@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
+    "api-spec",
     "openapi-parser",
     "generator",
 ]

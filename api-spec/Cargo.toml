@@ -1,12 +1,8 @@
 [package]
-name = "openapi-parser"
+name = "api-spec"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-api-spec = { path = "../api-spec" }
-serde = { version = "1.0.164", features = ["derive"] }
-serde_yaml = "0.9.22"
-thiserror = "1.0.40"
