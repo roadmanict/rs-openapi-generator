@@ -1,1 +1,7 @@
 This is a template
+
+{{ context.api_spec.service_name }}
+
+{% for endpoint in context.api_spec.endpoints %}
+    {{ endpoint.path }}
+{% endfor %}

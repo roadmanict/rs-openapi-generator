@@ -11,6 +11,6 @@ api-spec = { path = "../api-spec" }
 serde = { version = "1.0.164", features = ["derive"] }
 thiserror = "1.0.40"
 toml = "0.7.5"
+openapi-parser = { path = "../openapi-parser" }
 
 [dev-dependencies]
-openapi-parser = { path = "../openapi-parser" }
