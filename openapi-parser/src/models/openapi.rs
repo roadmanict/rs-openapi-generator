@@ -48,10 +48,12 @@ impl TryFrom<OpenApi> for ApiSpec {
 
     fn try_from(value: OpenApi) -> Result<Self, Self::Error> {
         let endpoints_wrapper: EndpointsWrapper = PathsWrapper(value.paths).try_into()?;
-        Ok(Self {
-            service_name: value.info.title,
-            endpoints: endpoints_wrapper.0,
-        })
+        let api_spec = ApiSpec::builder()
+            .service_name(value.info.title)
+            .endpoints(endpoints_wrapper.0)
+            .build();
+
+        Ok(api_spec)
     }
 }
 
@@ -83,11 +85,14 @@ impl TryFrom<OperationsWrapper> for EndpointsWrapper {
 
         let mut endpoints: Vec<Endpoint> = vec![];
         if let Some(operation) = operations.get {
-            endpoints.push(Endpoint {
-                path: path.clone(),
-                operation_id: operation.operation_id,
-                method: MethodWrapper(String::from("get")).try_into()?,
-            });
+            let method = MethodWrapper(String::from("get")).try_into()?;
+
+            endpoints.push(
+                Endpoint::builder()
+                    .method(method)
+                    .path(path.clone())
+                    .build(),
+            );
         }
 
         Ok(EndpointsWrapper(endpoints))
