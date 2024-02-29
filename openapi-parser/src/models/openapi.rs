@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use crate::ParseOpenApiError;
 
 use super::openapi_info::OpenApiInfo;
-use api_spec::{ApiSpec, Endpoint, RequestMethod};
+use api_spec::{endpoint::Endpoint, ApiSpec, RequestMethod};
 use serde::Deserialize;
 
 #[derive(Deserialize, PartialEq, Debug)]

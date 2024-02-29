@@ -1,6 +1,7 @@
 pub mod endpoint;
 
-use builder::{EndpointBuilder, NoMethod, NoPath};
+use self::builder::*;
+use endpoint::Endpoint;
 use serde::Serialize;
 
 #[derive(Serialize, Debug, PartialEq)]
@@ -15,51 +16,55 @@ impl ApiSpec {
     }
 }
 
-pub struct NoServiceName;
+pub mod builder {
+    use super::*;
 
-pub struct ApiSpecBuilder<ServiceName> {
-    service_name: ServiceName,
-    endpoints: Vec<Endpoint>,
-}
+    pub struct NoServiceName;
 
-impl<ServiceName> ApiSpecBuilder<ServiceName> {
-    pub fn endpoint(&mut self, endpoint: impl Into<Endpoint>) -> &mut Self {
-        self.endpoints.push(endpoint.into());
-
-        self
+    pub struct ApiSpecBuilder<ServiceName> {
+        service_name: ServiceName,
+        endpoints: Vec<Endpoint>,
     }
 
-    pub fn endpoints(&mut self, endpoints: impl Into<Vec<Endpoint>>) -> &mut Self {
-        self.endpoints = endpoints.into();
+    impl<ServiceName> ApiSpecBuilder<ServiceName> {
+        pub fn endpoint(&mut self, endpoint: impl Into<Endpoint>) -> &mut Self {
+            self.endpoints.push(endpoint.into());
 
-        self
-    }
-}
+            self
+        }
 
-impl ApiSpecBuilder<NoServiceName> {
-    pub fn new() -> Self {
-        Self {
-            service_name: NoServiceName,
-            endpoints: vec![],
+        pub fn endpoints(&mut self, endpoints: impl Into<Vec<Endpoint>>) -> &mut Self {
+            self.endpoints = endpoints.into();
+
+            self
         }
     }
 
-    pub fn service_name(self, service_name: impl Into<String>) -> ApiSpecBuilder<String> {
-        ApiSpecBuilder {
-            service_name: service_name.into(),
-            endpoints: self.endpoints,
+    impl ApiSpecBuilder<NoServiceName> {
+        pub fn new() -> Self {
+            Self {
+                service_name: NoServiceName,
+                endpoints: vec![],
+            }
+        }
+
+        pub fn service_name(self, service_name: impl Into<String>) -> ApiSpecBuilder<String> {
+            ApiSpecBuilder {
+                service_name: service_name.into(),
+                endpoints: self.endpoints,
+            }
         }
     }
-}
 
-impl ApiSpecBuilder<String> {
-    pub fn build(&mut self) -> ApiSpec {
-        let service_name = self.service_name.clone();
-        let endpoints = self.endpoints.clone();
+    impl ApiSpecBuilder<String> {
+        pub fn build(&mut self) -> ApiSpec {
+            let service_name = self.service_name.clone();
+            let endpoints = self.endpoints.clone();
 
-        ApiSpec {
-            service_name,
-            endpoints,
+            ApiSpec {
+                service_name,
+                endpoints,
+            }
         }
     }
 }

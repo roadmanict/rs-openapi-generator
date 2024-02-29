@@ -1,5 +1,8 @@
 use serde::Serialize;
 
+use self::builder::*;
+use crate::RequestMethod;
+
 #[derive(Serialize, Debug, PartialEq, Clone)]
 pub struct Endpoint {
     pub path: String,
