@@ -85,12 +85,13 @@ impl TryFrom<OperationsWrapper> for EndpointsWrapper {
 
         let mut endpoints: Vec<Endpoint> = vec![];
         if let Some(operation) = operations.get {
-            let method = MethodWrapper(String::from("get")).try_into()?;
+            let method: RequestMethod = MethodWrapper(String::from("get")).try_into()?;
 
             endpoints.push(
                 Endpoint::builder()
+                    .operation_id(operation.operation_id)
                     .method(method)
-                    .path(path.clone())
+                    .path(path)
                     .build(),
             );
         }

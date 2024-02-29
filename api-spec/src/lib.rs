@@ -108,7 +108,7 @@ pub mod builder {
     }
 
     impl<Path, Method> EndpointBuilder<Path, Method> {
-        pub fn operation_id(&mut self, operation_id: impl Into<Option<String>>) -> &mut Self {
+        pub fn operation_id(mut self, operation_id: impl Into<Option<String>>) -> Self {
             self.operation_id = operation_id.into();
 
             self
@@ -135,11 +135,11 @@ pub mod builder {
     }
 
     impl EndpointBuilder<String, RequestMethod> {
-        pub fn build(&mut self) -> Endpoint {
+        pub fn build(self) -> Endpoint {
             Endpoint {
-                path: self.path.clone(),
-                method: self.method.clone(),
-                operation_id: self.operation_id.clone(),
+                path: self.path,
+                method: self.method,
+                operation_id: self.operation_id,
             }
         }
     }
